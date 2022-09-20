@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 // import 'package:testing_flutter_create/pages/login_page.dart';
 
 final List<String> eastAfrica = [
@@ -43,16 +44,24 @@ class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => SignupPageState();
+  State<SignupPage> createState() => SignupPageState();
 }
 
-class SignupPageState extends State<StatefulWidget> {
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+class SignupPageState extends State<SignupPage> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late FocusNode focusNode;
   String? dropdownValue = eastAfrica.first;
   String? monthValue = month.first;
   String? yearValue = years.first;
   String? dayValue = days.first;
   String? animal = 'Dog';
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode = FocusNode();
+  }
+
   @override
   Widget build(BuildContext context) {
     // print(yearGenerator());
@@ -80,6 +89,7 @@ class SignupPageState extends State<StatefulWidget> {
           elevation: 0,
         ),
         body: Form(
+          key: _formKey,
           child: Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 30,
@@ -124,14 +134,15 @@ class SignupPageState extends State<StatefulWidget> {
                             child: Padding(
                           padding: const EdgeInsets.only(right: 12),
                           child: TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            focusNode: focusNode,
                             autofocus: true,
                             decoration: InputDecoration(
                                 labelText: 'fist name',
                                 helperText: '*required',
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(50))),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'this field cannot be empty';
@@ -144,11 +155,34 @@ class SignupPageState extends State<StatefulWidget> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 12),
                             child: TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              focusNode: focusNode,
                               decoration: InputDecoration(
+                                  errorStyle: const TextStyle(
+                                    fontSize: 10,
+                                    fontStyle: FontStyle.italic,
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 3, color: Colors.red),
+                                      borderRadius: BorderRadius.circular(50)),
+                                  focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          width: 3,
+                                          color:
+                                              Color.fromARGB(255, 0, 139, 253)),
+                                      borderRadius: BorderRadius.circular(50)),
                                   labelText: 'second name',
                                   helperText: '*required',
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(50))),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'this field cannot be empty';
+                                }
+                                return null;
+                              },
                             ),
                           ),
                         )
@@ -267,6 +301,8 @@ class SignupPageState extends State<StatefulWidget> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 25),
                       child: TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        focusNode: focusNode,
                         decoration: InputDecoration(
                             labelText: 'email',
                             helperText: '*required',
@@ -291,12 +327,20 @@ class SignupPageState extends State<StatefulWidget> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 12),
                               child: TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                                 decoration: InputDecoration(
                                     labelText: 'password',
                                     helperText: '*required',
                                     border: OutlineInputBorder(
                                         borderRadius:
                                             BorderRadius.circular(50))),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'this fild can not be emity';
+                                  }
+                                  return null;
+                                },
                               ),
                             ))
                       ],
@@ -312,12 +356,20 @@ class SignupPageState extends State<StatefulWidget> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 12),
                               child: TextFormField(
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
                                 decoration: InputDecoration(
                                     labelText: 'confirm password',
                                     helperText: '*required',
                                     border: OutlineInputBorder(
                                         borderRadius:
                                             BorderRadius.circular(50))),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'this field can not be empty';
+                                  }
+                                  return null;
+                                },
                               ),
                             ))
                       ],
@@ -349,14 +401,16 @@ class SignupPageState extends State<StatefulWidget> {
                                   style: TextStyle(fontSize: 20),
                                 ),
                                 onPressed: () {
+                                  focusNode.requestFocus();
                                   // print('hello world');
-                                  if (_formkey.currentState!.validate()) {
+                                  if (_formKey.currentState!.validate()) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(
-                                          content:
-                                              Text('thank you for signing up')),
+                                          content: Text('Processing Data')),
                                     );
+                                    //Navigator.of(context).push(_routeHome());
                                   }
+                                  _formKey.currentState!.save();
                                 },
                               ),
                             )
