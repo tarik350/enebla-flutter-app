@@ -1,7 +1,10 @@
 // ignore_for_file: sort_child_properties_last
 
 import 'package:flutter/material.dart';
-import 'package:testing_flutter_create/pages/listtileexample.dart';
+// import 'package:testing_flutter_create/pages/customlisttile.dart';
+// import 'package:testing_flutter_create/pages/formexample.dart';
+import 'package:testing_flutter_create/pages/login_page.dart';
+// import 'package:testing_flutter_create/pages/listtileexample.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +32,9 @@ class MyApp extends StatelessWidget {
           fontFamily: 'MsMadi',
           backgroundColor: Theme.of(context).primaryColor),
       color: Colors.red,
-      home: const ListTileExample(),
+      home: const MaterialApp(
+        home: LoginPage(),
+      ),
     );
   }
 }
