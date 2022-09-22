@@ -13,12 +13,17 @@ class HomePageAnimator extends StatefulWidget {
 }
 
 class _HomePageAnimatorState extends State<HomePageAnimator>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _controller;
+  late AnimationController _colorController;
 
   @override
   void initState() {
     super.initState();
+    _colorController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 2000))
+          ..repeat();
+
     _controller =
         AnimationController(vsync: this, duration: Duration(seconds: 2));
     _controller.forward();
@@ -28,12 +33,14 @@ class _HomePageAnimatorState extends State<HomePageAnimator>
   void dispose() {
     super.dispose();
     _controller.dispose();
+    _colorController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: HomePage(controller: _controller),
+      body:
+          HomePage(controller: _controller, colorController: _colorController),
     );
   }
 }

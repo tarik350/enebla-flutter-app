@@ -28,11 +28,12 @@ class DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    initAnimation();
   }
 
   void initAnimation() {
     _colorAnimationController.repeat(reverse: true);
-    _controller.forward();
+    // _controller.forward();
   }
 
   @override
