@@ -222,10 +222,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         //     show: true, // true / false
         //   ),
         // ],
-        tabSize: 50,
-        tabBarHeight: 55,
+        tabSize: 40,
+        tabBarHeight: 40,
         textStyle: const TextStyle(
-          fontSize: 12,
+          fontSize: 10,
           color: Colors.black,
           fontWeight: FontWeight.w500,
         ),

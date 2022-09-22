@@ -1,33 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:testing_flutter_create/widgets/actual_dashboard.dart';
-import 'package:testing_flutter_create/widgets/clouds.dart';
-import 'package:testing_flutter_create/widgets/face_painter.dart';
+import 'package:testing_flutter_create/animation/home_page.dart';
+import 'package:testing_flutter_create/widgets/sun.dart';
+import 'package:testing_flutter_create/animation/homeAnimator.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  const Dashboard({super.key});
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<Dashboard> createState() => DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
-  late AnimationController _controller;
-  final Tween<Color> _colortween =
-      Tween<Color>(begin: Colors.red, end: Colors.blue);
+/// AnimationControllers can be created with `vsync: this` because of TickerProviderStateMixin.
+class DashboardState extends State<Dashboard> with TickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 1),
+    vsync: this,
+  );
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _controller,
+    curve: Curves.fastOutSlowIn,
+  );
 
+  late final AnimationController _colorAnimationController =
+      AnimationController(vsync: this, duration: const Duration(seconds: 1));
+  late final ColorTween _colorTween =
+      ColorTween(begin: Colors.red.shade800, end: Colors.yellow.shade800);
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 2000));
-
-    startAnimation();
   }
 
-  @override
-  void didUpdateWidget(Dashboard oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    initState();
+  void initAnimation() {
+    _colorAnimationController.repeat(reverse: true);
+    _controller.forward();
   }
 
   @override
@@ -36,17 +41,36 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  Future<void> startAnimation() async {
-    await _controller.forward();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final Tween<Offset> _positionOffsetTween =
+        Tween<Offset>(begin: Offset(0.0, 0.0), end: Offset(0.0, .1));
+
+    //this is just for the youtube tutorial i am watching
+    // return Scaffold(body: HomePageAnimator());
+
     return Scaffold(
-        body: Center(
-            child: Container(
-                height: 400,
-                //aspectRatio: 20 / 30,
-                child: Clouds(animation: _colortween.animate(_controller)))));
+      body: GestureDetector(
+          onTap: () {
+            initAnimation();
+          },
+          onDoubleTap: () {
+            _controller.reverse();
+          },
+          child: Center(
+            child: SlideTransition(
+              position: _positionOffsetTween.animate(
+                  _animation.drive(CurveTween(curve: Curves.bounceIn))),
+              child: Sun(
+                  animation: _colorTween.animate(_colorAnimationController)),
+            ),
+          )),
+    );
+  }
+
+  void stopAnimation() {
+    _controller.reset();
+    _colorAnimationController.reset();
   }
 }

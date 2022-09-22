@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // import 'package:testing_flutter_create/pages/customlisttile.dart';
 // import 'package:testing_flutter_create/pages/formexample.dart';
 import 'package:testing_flutter_create/pages/login_page.dart';
+import 'package:testing_flutter_create/animation/homeAnimator.dart';
 // import 'package:testing_flutter_create/pages/listtileexample.dart';
 
 void main() {
