@@ -16,9 +16,16 @@ class LoginPageState extends State<StatefulWidget> {
   String? email;
   String? password;
 
+  @override
   void initState() {
     super.initState();
     focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,7 +69,7 @@ class LoginPageState extends State<StatefulWidget> {
                     autofocus: true,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _controller,
-                    focusNode: FocusNode(),
+                    focusNode: focusNode,
                     decoration: InputDecoration(
                         errorStyle: const TextStyle(
                             fontSize: 10, fontStyle: FontStyle.italic),
@@ -188,6 +195,8 @@ class LoginPageState extends State<StatefulWidget> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(50))),
                             onPressed: () {
+                              focusNode.requestFocus();
+
                               if (_formKey.currentState!.validate()) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -290,7 +299,7 @@ Route _routeSignup() {
 
 Route _routeHome() {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => const MyApp(),
+    pageBuilder: (context, animation, secondaryAnimation) => const MyHomePage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
       const end = Offset.zero;
