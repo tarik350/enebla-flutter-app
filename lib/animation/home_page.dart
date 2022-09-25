@@ -5,8 +5,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:testing_flutter_create/animation/home_page_enter_animation.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key, required AnimationController controller})
-      : animation = HomePageEnterAnimation(controller),
+  HomePage(
+      {Key? key,
+      required AnimationController controller,
+      required AnimationController colorController})
+      : animation = HomePageEnterAnimation(controller, colorController),
         super(key: key);
 
   final HomePageEnterAnimation animation;
@@ -54,7 +57,7 @@ class HomePage extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            color: Colors.grey.shade300),
+            color: animation.colorTween.value),
       ),
     );
   }
