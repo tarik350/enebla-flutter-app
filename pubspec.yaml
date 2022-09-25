@@ -27,6 +27,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  curved_navigation_bar: ^1.0.3 #latest version
+
+  motion_tab_bar_v2: ^0.2.3
   flutter:
     sdk: flutter
 
@@ -59,6 +62,10 @@ flutter:
   assets:
     - assets/images/p1.png
     - assets/images/flutter_fig.png
+    - assets/images/logo.png
+    - assets/images/logo_transparent.png
+    - assets/images/logo 2.png
+    - assets/images/logo_transparent 2.png
     
 
 
