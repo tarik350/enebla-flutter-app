@@ -2,6 +2,8 @@
 
 A new Flutter project.
 
+I am working on a flutter app called enebla that will allow users to order food and pay online
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
