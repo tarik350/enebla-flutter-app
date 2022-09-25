@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:testing_flutter_create/pages/signup_page.dart';
-import 'package:testing_flutter_create/pages/home_page.dart';
+import 'package:testing_flutter_create/widgets/bottom_navigation.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<StatefulWidget> {
   late FocusNode focusNode;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _controller = TextEditingController();
   String? email;
   String? password;
@@ -69,7 +69,7 @@ class LoginPageState extends State<StatefulWidget> {
                     autofocus: true,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: _controller,
-                    focusNode: focusNode,
+                    // focusNode: focusNode,
                     decoration: InputDecoration(
                         errorStyle: const TextStyle(
                             fontSize: 10, fontStyle: FontStyle.italic),
@@ -112,6 +112,7 @@ class LoginPageState extends State<StatefulWidget> {
                     vertical: 8,
                   ),
                   child: TextFormField(
+                    focusNode: focusNode,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -198,10 +199,6 @@ class LoginPageState extends State<StatefulWidget> {
                               focusNode.requestFocus();
 
                               if (_formKey.currentState!.validate()) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Processing Data')),
-                                );
                                 Navigator.of(context).push(_routeHome());
                               }
                               _formKey.currentState!.save();
